@@ -65,16 +65,12 @@ async function sendMessage() {
         chatBox.removeChild(thinkingIndicator);
 
         if (data.success) {
-            // Mostrar respuesta exitosa
+            // Mostrar la respuesta del bot (Gemini)
+            appendMessage(data.response, 'bot');
         } else {
-            const errorMessage = data.details || 'Intenta de nuevo más tarde.';
-            // Si el mensaje contiene "overloaded", muestra algo específico:
-            if (errorMessage.includes("overloaded")) {
-                 appendMessage('Asistente Ocupado: El modelo de IA está experimentando alta demanda. Por favor, intenta nuevamente en unos momentos.', 'bot');
-            } else {
-                 appendMessage(`Error del servidor: ${errorMessage}`, 'bot');
-            }
-            console.error('Error de API:', errorMessage);
+            // Mostrar mensaje de error si el PHP devolvió un error
+            appendMessage(`**Error del servidor:** ${data.details || 'Intenta de nuevo.'}`, 'bot');
+            console.error('Error de API:', data.details);
         }
 
     } catch (error) {
