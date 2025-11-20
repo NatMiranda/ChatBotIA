@@ -1,3 +1,5 @@
+document.addEventListener('DOMContentLoaded', () => {
+
 // Definir las constantes de la interfaz
 const chatButton = document.getElementById('chat-button');
 const closeButton = document.getElementById('close-button');
@@ -9,10 +11,16 @@ const sendButton = document.getElementById('send-button');
 // URL de tu script de backend PHP
 const API_URL = 'chat.php'; 
 
+console.log('Chat Button:', chatButton);
+console.log('Chat Container:', chatContainer);
+
 // 1. Funcionalidad de Abrir/Cerrar la Ventana
 chatButton.addEventListener('click', () => {
     chatContainer.classList.toggle('hidden');
-    userInput.focus(); // Enfocar el input al abrir
+    // Solo enfoca si la variable userInput fue obtenida correctamente
+    if (userInput) {
+        userInput.focus(); 
+    }
 });
 
 closeButton.addEventListener('click', () => {
@@ -65,12 +73,16 @@ async function sendMessage() {
         chatBox.removeChild(thinkingIndicator);
 
         if (data.success) {
-            // Mostrar la respuesta del bot (Gemini)
-            appendMessage(data.response, 'bot');
+            // Mostrar respuesta exitosa
         } else {
-            // Mostrar mensaje de error si el PHP devolvió un error
-            appendMessage(`**Error del servidor:** ${data.details || 'Intenta de nuevo.'}`, 'bot');
-            console.error('Error de API:', data.details);
+            const errorMessage = data.details || 'Intenta de nuevo más tarde.';
+            // Si el mensaje contiene "overloaded", muestra algo específico:
+            if (errorMessage.includes("overloaded")) {
+                 appendMessage('Asistente Ocupado: El modelo de IA está experimentando alta demanda. Por favor, intenta nuevamente en unos momentos.', 'bot');
+            } else {
+                 appendMessage(`Error del servidor: ${errorMessage}`, 'bot');
+            }
+            console.error('Error de API:', errorMessage);
         }
 
     } catch (error) {
@@ -82,11 +94,13 @@ async function sendMessage() {
         appendMessage('**Error de conexión.** No se pudo contactar al servidor.', 'bot');
         console.error('Error de Fetch:', error);
     } finally {
-        // E. Volver a habilitar la interfaz
-        sendButton.disabled = false;
-        userInput.disabled = false;
-        userInput.focus();
-    }
+        // E. Volver a habilitar la interfaz
+        sendButton.disabled = false;
+        if (userInput) { // Protección
+            userInput.disabled = false;
+            userInput.focus();
+        }
+    }
 }
 
 // 4. Conectar la función de envío al botón y a la tecla Enter
@@ -97,4 +111,5 @@ userInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         sendMessage();
     }
+});
 });

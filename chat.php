@@ -2,7 +2,6 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-// ... el resto del código ...
 // Configuración de la respuesta HTTP y cabeceras CORS
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *'); // Permite solicitudes desde el frontend

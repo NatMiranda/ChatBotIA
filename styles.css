@@ -3,14 +3,13 @@
 /* -------------------------------------- */
 #chat-button {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    background-color: #007bff; /* Azul de botón */
-    color: white;
+    bottom: 40px;
+    right: 40px;
+    background-color: white;
     border: none;
     border-radius: 50%;
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
     font-size: 24px;
     cursor: pointer;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -26,7 +25,7 @@
 /* -------------------------------------- */
 #chat-container {
     position: fixed;
-    bottom: 90px; /* Sobre el botón */
+    bottom: 120px; /* Sobre el botón */
     right: 20px;
     width: 350px;
     height: 450px;
@@ -38,6 +37,7 @@
     flex-direction: column;
     z-index: 999;
 }
+
 .hidden {
     display: none !important;
 }
@@ -46,7 +46,7 @@
 /* 3. Estilos Internos */
 /* -------------------------------------- */
 .chat-header {
-    background-color: #007bff;
+    background-color: #a00;
     color: white;
     padding: 10px 15px;
     border-top-left-radius: 10px;
